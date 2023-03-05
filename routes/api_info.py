@@ -2,7 +2,6 @@ from flask import jsonify, request
 from flask import Flask
 from flask_cors import CORS, cross_origin
 import requests
-import random
 
 app_id = "20643a03"
 app_key = "06034ed8cade7a32f636a3c9bf328fb5"
@@ -50,28 +49,3 @@ def get_word_info(word):
     except (requests.exceptions.RequestException, IndexError) as e:
         status_code = getattr(e.response, 'status_code', 500)
         return {'error': 'Response not found'}, status_code
-    
-@server.route("/api/random")
-def get_random_word():
-
-    url = f"https://od-api.oxforddictionaries.com/api/v2/{endpoint}/{language_code}/{word.lower()}"
-    headers = {"app_id": app_id, "app_key": app_key}
-
-    try:
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            result = response.json()
-            words = [word['word'] for word in result['results']]
-            word = random.choice(words)
-            return word, 200
-        else:
-            return {'error': 'Error fetching word', 'status_code':response.status_code}, response.status_code
-        
-    except (requests.exceptions.RequestException, IndexError) as e:
-        status_code = getattr(e.response, 'status_code', 500)
-        return {'error': 'Response not found'}, status_code
-    
-    return None
-
-if __name__ == '__main__':
-    server.run(debug=True)
