@@ -2,8 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from routes.api_contact import send_email
 from routes.api_info import get_word_info
-from routes.api_random import get_random_word
-import random
+import requests
 
 
 server = Flask(__name__)
@@ -13,7 +12,7 @@ CORS(server, supports_credentials=True)
 app_id = "20643a03"
 app_key = "06034ed8cade7a32f636a3c9bf328fb5"
 language_code = "en-us"
-endpoint = "entries"
+endpoint = "words"
 
 
 @server.route("/api/info/")
@@ -46,19 +45,5 @@ def api_contact():
         return jsonify({'error': 'Error sending email'}), 500
 
 
-@server.route("/api/random/")
-def api_random():
-    word = get_random_word()
-    if word is not None:     
-        result, status_code = get_word_info(word)
-        resp = jsonify(result)
-    else:
-        resp = jsonify({'error': 'Failed to get a random word.'}), 500
-
-    resp.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
-    resp.headers.add('Access-Control-Allow-Credentials', 'true')
-    return resp, status_code
-
 if __name__ == '__main__':
     server.run(debug=True)
-    
