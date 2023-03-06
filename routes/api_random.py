@@ -1,3 +1,4 @@
+from flask import Flask
 from random import randint
 from routes.api_info import get_word_info
 import requests
@@ -7,6 +8,8 @@ app_id = "20643a03"
 app_key = "06034ed8cade7a32f636a3c9bf328fb5"
 language_code = "en-us"
 endpoint = "entries"
+
+server = Flask(__name__)
 
 def get_random_word():
     # Send a GET request to the entries endpoint with a random word as the word parameter

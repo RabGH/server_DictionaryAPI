@@ -47,7 +47,7 @@ def api_contact():
 
 @server.route("/api/random")
 def api_random_word():
-    result, status_code = api_random.get_random_word()
+    result, status_code = api_random_word.get_random_word()
 
     resp = jsonify(result)
     resp.headers.add('Access-Control-Origin', 'http://localhost:3000')
