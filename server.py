@@ -45,5 +45,14 @@ def api_contact():
         return jsonify({'error': 'Error sending email'}), 500
 
 
+@server.route("/api/random")
+def api_random_word():
+    result, status_code = api_random.get_random_word()
+
+    resp = jsonify(result)
+    resp.headers.add('Access-Control-Origin', 'http://localhost:3000')
+    resp.headers.add('Access-Control-Allow-Credentials', 'true')
+    return resp, status_code
+
 if __name__ == '__main__':
     server.run(debug=True)
