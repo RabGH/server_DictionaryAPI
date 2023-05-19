@@ -2,16 +2,19 @@ from flask import jsonify, request
 from flask import Flask
 from flask_cors import CORS, cross_origin
 import requests
+import os
+from dotenv import load_dotenv
 
-app_id = "20643a03"
-app_key = "06034ed8cade7a32f636a3c9bf328fb5"
+load_dotenv()
+
+server = Flask(__name__)
+
+app_id = os.getenv('DICTIONARY_ID')
+app_key = os.getenv('DICTIONARY_API_KEY')
 language_code = "en-us"
 endpoint = "entries"
 
-
-server = Flask(__name__)
 CORS(server, supports_credentials=True)
-
 
 
 def get_word_info(word):
