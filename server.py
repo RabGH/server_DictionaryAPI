@@ -7,6 +7,7 @@ server = Flask(__name__)
 
 
 @server.route("/api/info/")
+@cross_origin()
 def api_info():
     word = request.args.get('word')
     if not word:
@@ -15,8 +16,6 @@ def api_info():
     result, status_code = get_word_info(word)
 
     resp = jsonify(result)
-    resp.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
-    resp.headers.add('Access-Control-Allow-Credentials', 'true')
     return resp, status_code
 
 
