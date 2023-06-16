@@ -2,7 +2,6 @@ from flask import Flask, jsonify, request
 from flask_cors import cross_origin
 from routes.api_contact import send_email
 from routes.api_info import get_word_info
-from routes.tokenBalanceQuickNode import get_wallet_token_balance
 
 server = Flask(__name__)
 
@@ -35,20 +34,6 @@ def api_contact():
     except Exception as e:
         print(e)
         return jsonify({'error': 'Error sending email'}), 500
-
-
-@server.route('/api/token-balance', methods=['POST'])
-def api_token_balance():
-    try:
-        data = request.json
-        address = data['address']
-        if not address or not isinstance(address, str):
-            return jsonify({'error': 'Invalid address'}), 400
-        result = get_wallet_token_balance(address)
-        return jsonify(result)
-    except Exception as e:
-        print(e)
-        return jsonify({'error': 'Error getting token balance'}), 500
 
 
 if __name__ == '__main__':
